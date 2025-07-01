@@ -193,9 +193,10 @@ var TABS = {
     }]
   }
 };
-// for (let i = 0; i < 6; ++i) {
-//   TABS.all.items = [...TABS.all.items, ...TABS.all.items];
-// }
+for (var i = 0; i < 6; ++i) {
+  var _TABS$all$items;
+  (_TABS$all$items = TABS.all.items).push.apply(_TABS$all$items, _toConsumableArray(TABS.all.items));
+}
 var TABS_KEYS = Object.keys(TABS);
 function Main() {
   var ref = React.useRef();
