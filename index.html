@@ -6,7 +6,8 @@
           content="width=device-width, initial-scale=1.0">
     <title>Яндекс.Дом</title>
     <link rel="stylesheet" type="text/css" href="reset.css">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
     <script src="dist/react.production.min.js" defer></script>
     <script src="dist/react-dom.production.min.js" defer></script>
     <script src="dist/main.compiled.js" defer></script>
