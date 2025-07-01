@@ -2730,7 +2730,7 @@ function Main() {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
     }
-  }, [activeTab]);
+  });
   var onSelectInput = function onSelectInput(event) {
     setActiveTab(event.target.value);
   };
@@ -2746,7 +2746,7 @@ function Main() {
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
     }
-  }, [hasRightScroll]);
+  });
   var onArrowCLick = function onArrowCLick() {
     var scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
     if (scroller) {
