@@ -2734,19 +2734,19 @@ function Main() {
   var onSelectInput = function onSelectInput(event) {
     setActiveTab(event.target.value);
   };
-  var sizes = [];
+  var sizesRef = React.useRef([]);
   var onSize = function onSize(size) {
-    sizes = [].concat(_toConsumableArray(sizes), [size]);
+    sizesRef.current = [].concat(_toConsumableArray(sizesRef.current), [size]);
   };
   React.useEffect(function () {
-    var sumWidth = sizes.reduce(function (acc, item) {
+    var sumWidth = sizesRef.current.reduce(function (acc, item) {
       return acc + item.width;
     }, 0);
     var newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
     }
-  });
+  }, [activeTab, hasRightScroll]);
   var onArrowCLick = function onArrowCLick() {
     var scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
     if (scroller) {

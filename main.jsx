@@ -75,19 +75,18 @@ function Main() {
     setActiveTab(event.target.value);
   };
 
-  let sizes = [];
+  const sizesRef = React.useRef([]);
   const onSize = size => {
-    sizes = [...sizes, size];
+    sizesRef.current = [...sizesRef.current, size];
   };
 
   React.useEffect(() => {
-    const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-
+    const sumWidth = sizesRef.current.reduce((acc, item) => acc + item.width, 0);
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
     }
-  });
+  }, [activeTab, hasRightScroll]);
 
   const onArrowCLick = () => {
     const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
