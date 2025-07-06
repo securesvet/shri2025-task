@@ -17,7 +17,7 @@ html, body, #app {
 }
 
 #app {
-  flex: 1 0 auto; /* This makes it grow and push the footer down */
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
 }
