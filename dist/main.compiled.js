@@ -2897,7 +2897,36 @@ function Main() {
     onClick: onArrowCLick
   }))));
 }
+var Footer = function Footer() {
+  return /*#__PURE__*/React.createElement("footer", {
+    "class": "footer"
+  }, " ", /*#__PURE__*/React.createElement("ul", {
+    "class": "footer__list"
+  }, /*#__PURE__*/React.createElement("li", {
+    "class": "footer__item"
+  }, /*#__PURE__*/React.createElement("a", {
+    "class": "footer__link",
+    href: "/"
+  }, "\u041F\u043E\u043C\u043E\u0449\u044C")), /*#__PURE__*/React.createElement("li", {
+    "class": "footer__item"
+  }, /*#__PURE__*/React.createElement("a", {
+    "class": "footer__link",
+    href: "/"
+  }, "\u041E\u0431\u0440\u0430\u0442\u043D\u0430\u044F \u0441\u0432\u044F\u0437\u044C")), /*#__PURE__*/React.createElement("li", {
+    "class": "footer__item"
+  }, /*#__PURE__*/React.createElement("a", {
+    "class": "footer__link",
+    href: "/"
+  }, "\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A\u0430\u043C")), /*#__PURE__*/React.createElement("li", {
+    "class": "footer__item"
+  }, /*#__PURE__*/React.createElement("a", {
+    "class": "footer__link",
+    href: "/"
+  }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F"))), /*#__PURE__*/React.createElement("div", {
+    "class": "footer__copyright"
+  }, "\xA9 1997\u20132023 \u041E\u041E\u041E \xAB\u042F\u043D\u0434\u0435\u043A\u0441\xBB"));
+};
 document.addEventListener("DOMContentLoaded", function () {
   var root = ReactDOM.createRoot(document.getElementById('app'));
-  root.render(/*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Main, null)));
+  root.render(/*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Main, null), /*#__PURE__*/React.createElement(Footer, null)));
 });
