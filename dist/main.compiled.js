@@ -1,8 +1,6 @@
 "use strict";
 
-var _reactWindow = require("react-window");
-var _reactVirtualizedAutoSizer = _interopRequireDefault(require("react-virtualized-auto-sizer"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -2732,10 +2730,23 @@ function Main() {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
     }
-  }, [activeTab]);
+  });
   var onSelectInput = function onSelectInput(event) {
     setActiveTab(event.target.value);
   };
+  var sizesRef = React.useRef([]);
+  var onSize = function onSize(size) {
+    sizesRef.current = [].concat(_toConsumableArray(sizesRef.current), [size]);
+  };
+  React.useEffect(function () {
+    var sumWidth = sizesRef.current.reduce(function (acc, item) {
+      return acc + item.width;
+    }, 0);
+    var newHasRightScroll = sumWidth > ref.current.offsetWidth;
+    if (newHasRightScroll !== hasRightScroll) {
+      setHasRightScroll(newHasRightScroll);
+    }
+  }, [activeTab, hasRightScroll]);
   var onArrowCLick = function onArrowCLick() {
     var scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
     if (scroller) {
@@ -2745,18 +2756,92 @@ function Main() {
       });
     }
   };
-  var renderRow = function renderRow(_ref) {
-    var index = _ref.index,
-      style = _ref.style,
-      data = _ref.data;
-    var item = data[index];
-    return /*#__PURE__*/React.createElement("div", {
-      style: style
-    }, /*#__PURE__*/React.createElement(Event, item));
-  };
   return /*#__PURE__*/React.createElement("main", {
     className: "main"
   }, /*#__PURE__*/React.createElement("section", {
+    className: "section main__general"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section__title section__title-header section__main-title"
+  }, "\u0413\u043B\u0430\u0432\u043D\u043E\u0435"), /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__primary"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "hero-dashboard__title"
+  }, "\u041F\u0440\u0438\u0432\u0435\u0442, \u0413\u0435\u043D\u043D\u0430\u0434\u0438\u0439!"), /*#__PURE__*/React.createElement("p", {
+    className: "hero-dashboard__subtitle"
+  }, "\u0414\u0432\u0435\u0440\u0438 \u0438 \u043E\u043A\u043D\u0430 \u0437\u0430\u043A\u0440\u044B\u0442\u044B, \u0441\u0438\u0433\u043D\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u044F \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u0430."), /*#__PURE__*/React.createElement("ul", {
+    className: "hero-dashboard__info"
+  }, /*#__PURE__*/React.createElement("li", {
+    className: "hero-dashboard__item"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__item-title"
+  }, "\u0414\u043E\u043C\u0430"), /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__item-details"
+  }, "+23", /*#__PURE__*/React.createElement("span", {
+    className: "a11y-hidden"
+  }, "\xB0"))), /*#__PURE__*/React.createElement("li", {
+    className: "hero-dashboard__item"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__item-title"
+  }, "\u0417\u0430 \u043E\u043A\u043D\u043E\u043C"), /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__item-details"
+  }, "+19", /*#__PURE__*/React.createElement("span", {
+    className: "a11y-hidden"
+  }, "\xB0"), /*#__PURE__*/React.createElement("div", {
+    className: "hero-dashboard__icon hero-dashboard__icon_rain",
+    role: "img",
+    "aria-label": "\u0414\u043E\u0436\u0434\u044C"
+  }))))), /*#__PURE__*/React.createElement("ul", {
+    className: "hero-dashboard__schedule"
+  }, /*#__PURE__*/React.createElement(Event, {
+    icon: "temp",
+    iconLabel: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430",
+    title: "Philips Cooler",
+    subtitle: "\u041D\u0430\u0447\u043D\u0435\u0442 \u043E\u0445\u043B\u0430\u0436\u0434\u0430\u0442\u044C \u0432 16:30"
+  }), /*#__PURE__*/React.createElement(Event, {
+    icon: "light",
+    iconLabel: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435",
+    title: "Xiaomi Yeelight LED Smart Bulb",
+    subtitle: "\u0412\u043A\u043B\u044E\u0447\u0438\u0442\u0441\u044F \u0432 17:00"
+  }), /*#__PURE__*/React.createElement(Event, {
+    icon: "light",
+    iconLabel: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435",
+    title: "Xiaomi Yeelight LED Smart Bulb",
+    subtitle: "\u0412\u043A\u043B\u044E\u0447\u0438\u0442\u0441\u044F \u0432 17:00"
+  })))), /*#__PURE__*/React.createElement("section", {
+    className: "section main__scripts"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section__title section__title-header"
+  }, "\u0418\u0437\u0431\u0440\u0430\u043D\u043D\u044B\u0435 \u0441\u0446\u0435\u043D\u0430\u0440\u0438\u0438"), /*#__PURE__*/React.createElement("ul", {
+    className: "event-grid"
+  }, /*#__PURE__*/React.createElement(Event, {
+    slim: true,
+    icon: "light2",
+    iconLabel: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435",
+    title: "\u0412\u044B\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0432\u0435\u0441\u044C \u0441\u0432\u0435\u0442 \u0432 \u0434\u043E\u043C\u0435 \u0438 \u0432\u043E \u0434\u0432\u043E\u0440\u0435"
+  }), /*#__PURE__*/React.createElement(Event, {
+    slim: true,
+    icon: "schedule",
+    iconLabel: "\u0420\u0430\u0441\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+    title: "\u042F \u0443\u0445\u043E\u0436\u0443"
+  }), /*#__PURE__*/React.createElement(Event, {
+    slim: true,
+    icon: "light2",
+    iconLabel: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435",
+    title: "\u0412\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0441\u0432\u0435\u0442 \u0432 \u043A\u043E\u0440\u0438\u0434\u043E\u0440\u0435"
+  }), /*#__PURE__*/React.createElement(Event, {
+    slim: true,
+    icon: "temp2",
+    iconLabel: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430",
+    title: "\u041D\u0430\u0431\u0440\u0430\u0442\u044C \u0433\u043E\u0440\u044F\u0447\u0443\u044E \u0432\u0430\u043D\u043D\u0443",
+    subtitle: "\u041D\u0430\u0447\u043D\u0451\u0442\u0441\u044F \u0432 18:00"
+  }), /*#__PURE__*/React.createElement(Event, {
+    slim: true,
+    icon: "temp2",
+    iconLabel: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430",
+    title: "\u0421\u0434\u0435\u043B\u0430\u0442\u044C \u043F\u043E\u043B \u0442\u0451\u043F\u043B\u044B\u043C \u0432\u043E \u0432\u0441\u0435\u0439 \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0435"
+  }))), /*#__PURE__*/React.createElement("section", {
     className: "section main__devices"
   }, /*#__PURE__*/React.createElement("div", {
     className: "section__title"
@@ -2797,22 +2882,16 @@ function Main() {
       className: 'section__panel' + (key === activeTab ? '' : ' section__panel_hidden'),
       "aria-hidden": key === activeTab ? 'false' : 'true',
       id: "panel_".concat(key),
-      "aria-labelledby": "tab_".concat(key),
-      style: {
-        height: '400px'
-      } // height for react-window
-    }, key === activeTab && /*#__PURE__*/React.createElement(_reactVirtualizedAutoSizer["default"], null, function (_ref2) {
-      var height = _ref2.height,
-        width = _ref2.width;
-      return /*#__PURE__*/React.createElement(_reactWindow.FixedSizeList, {
-        height: height,
-        itemCount: TABS[key].items.length,
-        itemSize: 100 // Adjust based on actual Event height
-        ,
-        width: width,
-        itemData: TABS[key].items
-      }, renderRow);
-    }));
+      "aria-labelledby": "tab_".concat(key)
+    }, /*#__PURE__*/React.createElement("ul", {
+      className: "section__panel-list"
+    }, TABS[key].items.map(function (item, index) {
+      return /*#__PURE__*/React.createElement(Event, _extends({
+        key: index
+      }, item, {
+        onSize: onSize
+      }));
+    })));
   }), hasRightScroll && /*#__PURE__*/React.createElement("div", {
     className: "section__arrow",
     onClick: onArrowCLick
