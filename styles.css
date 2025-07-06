@@ -12,8 +12,14 @@ body {
     margin: 0;
 }
 
-html, body {
+html, body, #app {
     height: 100%;
+}
+
+#app {
+  flex: 1 0 auto; /* This makes it grow and push the footer down */
+  display: flex;
+  flex-direction: column;
 }
 
 .a11y-hidden {
