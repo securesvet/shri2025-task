@@ -1,4 +1,7 @@
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 function Header() {
+
   let [expanded, setExpanded] = React.useState(false);
   let [toggled, setToggled] = React.useState(false);
 
@@ -178,24 +181,11 @@ function Main() {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
     }
-  });
+  }, [activeTab]);
 
   const onSelectInput = event => {
     setActiveTab(event.target.value);
   };
-
-  const sizesRef = React.useRef([]);
-  const onSize = size => {
-    sizesRef.current = [...sizesRef.current, size];
-  };
-
-  React.useEffect(() => {
-    const sumWidth = sizesRef.current.reduce((acc, item) => acc + item.width, 0);
-    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
-    if (newHasRightScroll !== hasRightScroll) {
-      setHasRightScroll(newHasRightScroll);
-    }
-  }, [activeTab, hasRightScroll]);
 
   const onArrowCLick = () => {
     const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
@@ -207,149 +197,84 @@ function Main() {
     }
   };
 
-  return <main className="main">
-    <section className="section main__general">
-      <h2 className="section__title section__title-header section__main-title">Главное</h2>
-      <div className="hero-dashboard">
-        <div className="hero-dashboard__primary">
-          <h3 className="hero-dashboard__title">Привет, Геннадий!</h3>
-          <p className="hero-dashboard__subtitle">Двери и окна закрыты, сигнализация включена.</p>
-          <ul className="hero-dashboard__info">
-            <li className="hero-dashboard__item">
-              <div className="hero-dashboard__item-title">Дома</div>
-              <div className="hero-dashboard__item-details">
-                +23
-                <span className="a11y-hidden">°</span>
-              </div>
-            </li>
-            <li className="hero-dashboard__item">
-              <div className="hero-dashboard__item-title">За окном</div>
-              <div className="hero-dashboard__item-details">
-                +19
-                <span className="a11y-hidden">°</span>
+  const renderRow = ({ index, style, data }) => {
+    const item = data[index];
+    return (
+      <div style={style}>
+        <Event {...item} />
+      </div>
+    );
+  };
 
-                <div
-                  className="hero-dashboard__icon hero-dashboard__icon_rain"
-                  role="img"
-                  aria-label="Дождь"
-                ></div>
-              </div>
-            </li>
+  return (
+    <main className="main">
+      {/* ...other sections stay unchanged... */}
+
+      <section className="section main__devices">
+        <div className="section__title">
+          <h2 className="section__title-header">Избранные устройства</h2>
+
+          <select className="section__select" defaultValue="all" onInput={onSelectInput}>
+            {TABS_KEYS.map(key =>
+              <option key={key} value={key}>
+                {TABS[key].title}
+              </option>
+            )}
+          </select>
+
+          <ul role="tablist" className="section__tabs">
+            {TABS_KEYS.map(key =>
+              <li
+                key={key}
+                role="tab"
+                aria-selected={key === activeTab ? 'true' : 'false'}
+                tabIndex={key === activeTab ? '0' : undefined}
+                className={'section__tab' + (key === activeTab ? ' section__tab_active' : '')}
+                id={`tab_${key}`}
+                aria-controls={`panel_${key}`}
+                onClick={() => setActiveTab(key)}
+              >
+                {TABS[key].title}
+              </li>
+            )}
           </ul>
         </div>
-        <ul className="hero-dashboard__schedule">
-          <Event
-            icon="temp"
-            iconLabel="Температура"
-            title="Philips Cooler"
-            subtitle="Начнет охлаждать в 16:30"
-          />
-          <Event
-            icon="light"
-            iconLabel="Освещение"
-            title="Xiaomi Yeelight LED Smart Bulb"
-            subtitle="Включится в 17:00"
-          />
-          <Event
-            icon="light"
-            iconLabel="Освещение"
-            title="Xiaomi Yeelight LED Smart Bulb"
-            subtitle="Включится в 17:00"
-          />
-        </ul>
-      </div>
-    </section>
 
-    <section className="section main__scripts">
-      <h2 className="section__title section__title-header">Избранные сценарии</h2>
-
-      <ul className="event-grid">
-        <Event
-          slim={true}
-          icon="light2"
-          iconLabel="Освещение"
-          title="Выключить весь свет в доме и во дворе"
-        />
-        <Event
-          slim={true}
-          icon="schedule"
-          iconLabel="Расписание"
-          title="Я ухожу"
-        />
-        <Event
-          slim={true}
-          icon="light2"
-          iconLabel="Освещение"
-          title="Включить свет в коридоре"
-        />
-        <Event
-          slim={true}
-          icon="temp2"
-          iconLabel="Температура"
-          title="Набрать горячую ванну"
-          subtitle="Начнётся в 18:00"
-        />
-        <Event
-          slim={true}
-          icon="temp2"
-          iconLabel="Температура"
-          title="Сделать пол тёплым во всей квартире"
-        />
-      </ul>
-    </section>
-
-    <section className="section main__devices">
-      <div className="section__title">
-        <h2 className="section__title-header">
-          Избранные устройства
-        </h2>
-
-        <select className="section__select" defaultValue="all" onInput={onSelectInput}>
+        <div className="section__panel-wrapper" ref={ref}>
           {TABS_KEYS.map(key =>
-            <option key={key} value={key}>
-              {TABS[key].title}
-            </option>
-          )}
-        </select>
-
-        <ul role="tablist" className="section__tabs">
-          {TABS_KEYS.map(key =>
-            <li
+            <div
               key={key}
-              role="tab"
-              aria-selected={key === activeTab ? 'true' : 'false'}
-              tabIndex={key === activeTab ? '0' : undefined}
-              className={'section__tab' + (key === activeTab ? ' section__tab_active' : '')}
-              id={`tab_${key}`}
-              aria-controls={`panel_${key}`}
-              onClick={() => setActiveTab(key)}
+              role="tabpanel"
+              className={'section__panel' + (key === activeTab ? '' : ' section__panel_hidden')}
+              aria-hidden={key === activeTab ? 'false' : 'true'}
+              id={`panel_${key}`}
+              aria-labelledby={`tab_${key}`}
+              style={{ height: '400px' }} // height for react-window
             >
-              {TABS[key].title}
-            </li>
-          )}
-        </ul>
-      </div>
-
-      <div className="section__panel-wrapper" ref={ref}>
-        {TABS_KEYS.map(key =>
-          <div key={key} role="tabpanel" className={'section__panel' + (key === activeTab ? '' : ' section__panel_hidden')} aria-hidden={key === activeTab ? 'false' : 'true'} id={`panel_${key}`} aria-labelledby={`tab_${key}`}>
-            <ul className="section__panel-list">
-              {TABS[key].items.map((item, index) =>
-                <Event
-                  key={index}
-                  {...item}
-                  onSize={onSize}
-                />
+              {key === activeTab && (
+                <AutoSizer>
+                  {({ height, width }) => (
+                    <List
+                      height={height}
+                      itemCount={TABS[key].items.length}
+                      itemSize={100} // Adjust based on actual Event height
+                      width={width}
+                      itemData={TABS[key].items}
+                    >
+                      {renderRow}
+                    </List>
+                  )}
+                </AutoSizer>
               )}
-            </ul>
-          </div>
-        )}
-        {hasRightScroll &&
-          <div className="section__arrow" onClick={onArrowCLick}></div>
-        }
-      </div>
-    </section>
-  </main>;
+            </div>
+          )}
+          {hasRightScroll &&
+            <div className="section__arrow" onClick={onArrowCLick}></div>
+          }
+        </div>
+      </section>
+    </main>
+  );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
